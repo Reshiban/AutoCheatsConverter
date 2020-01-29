@@ -3,7 +3,7 @@ Script used for convert a list off addresses to a list of cheats ready to be use
 
 #How to use?
 
-Just executing the script with Pygrosse mere.
+Just executing the script with Python.
 He will read the "ExportedAddresses.txt" file and will export the result at "cheats.txt" (this action will overwrite the file cheats.txt if she already exist!)
 
 
