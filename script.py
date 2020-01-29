@@ -11,13 +11,19 @@
 #------------------------------------------------
 
 
-
 import shutil
 dest1 = shutil.copyfile("./ExportedAddresses.txt", "./cheats.txt")
 
 #--------------------SET-LPC---------------------
-lpc = 25
+lpc = 20
 #--------------------SET-LPC---------------------
+
+
+#---------------SET-VALUES-BUTTONS---------------
+base = "3F800000"
+replaceL = "3F000000"
+replaceR = "40000000"
+#---------------SET-VALUES-BUTTONS---------------
 
 
 #Check and stock the number of file lines
@@ -212,7 +218,7 @@ while limitation -1 > it:
 
     with open("cheats.txt", "w") as f:
         for i in range(((serie * ((lpc * 3) + 6)) + lpc + 2)   ,   ((serie * ((lpc * 3) + 6)) + (lpc * 2) + 2)):
-            linesL[i] = linesL[i].replace("3D088889", "3C888889")
+            linesL[i] = linesL[i].replace(base, replaceL)
         f.write("".join(linesL))
     it = it + 1
     serie = serie + 1
@@ -228,7 +234,7 @@ with open("cheats.txt", "r") as f:
 
 with open("cheats.txt", "w") as f:
     for i in range(((serie * ((lpc * 3) + 6)) + linesfin + 2)   ,   ((serie * ((lpc * 3) + 6)) + (linesfin * 2) + 4)):
-        linesL[i] = linesL[i].replace("3D088889", "3C888889")
+        linesL[i] = linesL[i].replace(base, replaceL)
     f.write("".join(linesL))
 it = it + 1
 serie = serie + 1
@@ -255,7 +261,7 @@ while limitation -1 > it:
 
     with open("cheats.txt", "w") as f:
         for i in range(((serie * ((lpc * 3) + 6)) + (lpc * 2) + 2)   ,   ((serie * ((lpc * 3) + 6)) + (lpc * 3) + 4)):
-            linesR[i] = linesR[i].replace("3D088889", "3C888889")
+            linesR[i] = linesR[i].replace(base, replaceR)
         f.write("".join(linesR))
     it = it + 1
     serie = serie + 1
@@ -271,7 +277,7 @@ with open("cheats.txt", "r") as f:
 
 with open("cheats.txt", "w") as f:
     for i in range(((serie * ((lpc * 3) + 6)) + (linesfin * 2) + 2)   ,   ((serie * ((lpc * 3) + 6)) + (linesfin * 3) + 4)):
-        linesR[i] = linesR[i].replace("3D088889", "3C888889")
+        linesR[i] = linesR[i].replace(base, replaceR)
     f.write("".join(linesR))
 it = it + 1
 serie = serie + 1
