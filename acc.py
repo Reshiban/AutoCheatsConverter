@@ -1,6 +1,6 @@
 #Convert simples adresses at cheat readable by CTRPF
 #Script by Reshiban and luc_ha for GBATemp
-#Also thx at NaN (NotaName) community for his help!
+#Also thx to NaN (NotaName) community for his help!
 
 #lpc == Lines Per Cheat
 
@@ -22,6 +22,7 @@ lpc = 25
 
 
 #---------------SET-VALUES-BUTTONS---------------
+offset = "D3000000 00000000"
 base = "3F800000"
 replaceL = "3F000000"
 replaceR = "40000000"
@@ -59,7 +60,7 @@ print("(",lpc,"*",calclines/lpc,")  +  ->",linesfin,"MORE line(s) <-")
 
 
 
-#Replace all the ": " by " "
+#Replace all the " : " by " "
 with open("cheats.txt","r") as f:
     text = f.read().replace(": ","")
 
@@ -80,7 +81,7 @@ with open("cheats.txt","r+") as f:
         f.seek(0)
         f.writelines(text)
 
-#Pass 1 line for the first line
+#Pass 1 line at the first line
 with open("cheats.txt","r+") as f:
         text = f.readlines()
         text.insert(0,"\n")
@@ -90,8 +91,8 @@ with open("cheats.txt","r+") as f:
 
 
 #Def the LIMITATIONS
-#limitation = (nmbrlines / (lpc + 2)) + 1
 limitation = (calclines/lpc)
+print("Limitation =",limitation)
 
 
 
@@ -126,12 +127,11 @@ step = 0
 #Mark [* Step] for each packages
 while limitation >= step :
     with open("cheats.txt","r+") as f:
-        steptext = f"[{step + 1} Step]"
+        steptext = f"[{step + 1} Step]\n"+offset
         text = f.readlines()
-        text.insert((lpc + 2) * step,steptext)
+        text.insert((lpc + 3) * step,steptext)
         f.seek(0)
         f.writelines(text)
-    it = it + lpc + 2
     step = step + 1
 
 
@@ -151,17 +151,17 @@ fix = 0
 while limitation > it:
     with open("cheats.txt","r+") as f:
         text = f.readlines()
-        text.insert(lpc+fix+1+(serie*lpc),"DD000000 00000200\n\nD0000000 00000000\nDD000000 00000100\n\nD0000000 00000000\n")
+        text.insert(lpc+fix+2+(serie*lpc),"DD000000 00000200\n\nD0000000 00000000\nDD000000 00000100\n\nD0000000 00000000\n")
         f.seek(0)
         f.writelines(text)
     it = it + 1
     serie = serie + 1
-    fix = fix + 8
+    fix = fix + 9
 
 
 with open("cheats.txt","r+") as f:
     text = f.readlines()
-    text.insert(linesfin+fix+1+(serie*lpc),"DD000000 00000200\n\nD0000000 00000000\nDD000000 00000100\n\nD0000000 00000000\n")
+    text.insert(linesfin+fix+2+(serie*lpc),"DD000000 00000200\n\nD0000000 00000000\nDD000000 00000100\n\nD0000000 00000000\n")
     f.seek(0)
     f.writelines(text)
 
@@ -175,7 +175,6 @@ with open("cheats.txt","r+") as f:
 
 it = 0
 serie = 0
-fix = 0
 
 
 
@@ -183,12 +182,11 @@ fix = 0
 while limitation > it:
     with open("cheats.txt","r+") as f:
         text = f.readlines()
-        addr = text[:(serie * (6 + (lpc*3))) + lpc + 2]    +    text[(serie * (6 + (lpc*3))) + 1:(serie * (6 + (lpc*3))) + lpc + 1]    +    text[(serie * (6 + (lpc*3))) + lpc + 3:(serie * (6 + (lpc*3))) + lpc + 5]    +    text[(serie * (6 + (lpc*3))) + 1:(serie * (6 + (lpc*3))) + lpc + 1]    +    text[(serie * (6 + (lpc*3))) + lpc + 6:]
+        addr = text[:(serie * (7 + (lpc*3))) + lpc + 3]    +    text[(serie * (7 + (lpc*3))) + 2:(serie * (7 + (lpc*3))) + lpc + 2]    +    text[(serie * (7 + (lpc*3))) + lpc + 4:(serie * (7 + (lpc*3))) + lpc + 6]    +    text[(serie * (7 + (lpc*3))) + 2:(serie * (7 + (lpc*3))) + lpc + 2]    +    text[(serie * (7 + (lpc*3))) + lpc + 7:]
         f.seek(0)
         f.write("".join(addr))
     it = it + 1
     serie = serie + 1
-    fix = fix + 8
 
 
 
@@ -196,7 +194,7 @@ while limitation > it:
 #Copy lpc adresses in some places (2/2)
 with open("cheats.txt","r+") as f:
     text = f.readlines()
-    addr = text[:(serie * (6 + (lpc*3))) + linesfin + 2]    +    text[(serie * (6 + (lpc*3))) + 1:(serie * (6 + (lpc*3))) + linesfin + 1]    +    text[(serie * (6 + (lpc*3))) + linesfin + 3:(serie * (6 + (lpc*3))) + linesfin + 5]    +    text[(serie * (6 + (lpc*3))) + 1:(serie * (6 + (lpc*3))) + linesfin + 1]    +    text[(serie * (6 + (lpc*3))) + linesfin + 6:]
+    addr = text[:(serie * (7 + (lpc*3))) + linesfin + 3]    +    text[(serie * (7 + (lpc*3))) + 2:(serie * (7 + (lpc*3))) + linesfin + 2]    +    text[(serie * (7 + (lpc*3))) + linesfin + 4:(serie * (7 + (lpc*3))) + linesfin + 6]    +    text[(serie * (7 + (lpc*3))) + 2:(serie * (7 + (lpc*3))) + linesfin + 2]    +    text[(serie * (7 + (lpc*3))) + linesfin + 7:]
     f.seek(0)
     f.write("".join(addr))
 
@@ -210,7 +208,6 @@ with open("cheats.txt","r+") as f:
 
 it = 0
 serie = 0
-fix = 0
 
 
 #Replace all the "base" by "replaceL" for L (1/2)
@@ -219,12 +216,11 @@ while limitation > it:
         linesL = f.readlines()
 
     with open("cheats.txt", "w") as f:
-        for i in range(((serie * ((lpc * 3) + 6)) + lpc + 2)   ,   ((serie * ((lpc * 3) + 6)) + (lpc * 2) + 2)):
+        for i in range(((serie * (7 + (lpc * 3))) + lpc + 3)   ,   ((serie * (7 + (lpc * 3))) + (lpc * 2) + 3)):
             linesL[i] = linesL[i].replace(base, replaceL)
         f.write("".join(linesL))
     it = it + 1
     serie = serie + 1
-    fix = fix + 8
 
 
 
@@ -234,7 +230,7 @@ with open("cheats.txt", "r") as f:
     linesL = f.readlines()
 
 with open("cheats.txt", "w") as f:
-    for i in range(((serie * ((lpc * 3) + 6)) + linesfin + 2)   ,   ((serie * ((lpc * 3) + 6)) + (linesfin * 2) + 4)):
+    for i in range(((serie * (7 + (lpc * 3))) + linesfin + 3)   ,   ((serie * (7 + (lpc * 3))) + (linesfin * 2) + 5)):
         linesL[i] = linesL[i].replace(base, replaceL)
     f.write("".join(linesL))
 
@@ -244,7 +240,6 @@ with open("cheats.txt", "w") as f:
 
 it = 0
 serie = 0
-fix = 0
 
 
 
@@ -254,12 +249,11 @@ while limitation > it:
         linesR = f.readlines()
 
     with open("cheats.txt", "w") as f:
-        for i in range(((serie * ((lpc * 3) + 6)) + (lpc * 2) + 2)   ,   ((serie * ((lpc * 3) + 6)) + (lpc * 3) + 4)):
+        for i in range(((serie * (7 + (lpc * 3))) + (lpc * 2) + 3)   ,   ((serie * (7 + (lpc * 3))) + (lpc * 3) + 5)):
             linesR[i] = linesR[i].replace(base, replaceR)
         f.write("".join(linesR))
     it = it + 1
     serie = serie + 1
-    fix = fix + 8
 
 
 
@@ -269,7 +263,7 @@ with open("cheats.txt", "r") as f:
     linesR = f.readlines()
 
 with open("cheats.txt", "w") as f:
-    for i in range(((serie * ((lpc * 3) + 6)) + (linesfin * 2) + 2)   ,   ((serie * ((lpc * 3) + 6)) + (linesfin * 3) + 4)):
+    for i in range(((serie * (7 + (lpc * 3))) + (linesfin * 2) + 3)   ,   ((serie * (7 + (lpc * 3))) + (linesfin * 3) + 5)):
         linesR[i] = linesR[i].replace(base, replaceR)
     f.write("".join(linesR))
 
