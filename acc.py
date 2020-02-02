@@ -2,20 +2,22 @@
 #Script by Reshiban and luc_ha for GBATemp
 #Also thx at NaN (NotaName) community for his help!
 
-#lpc = Lines Per Cheat
+#lpc == Lines Per Cheat
 
 
 
 #------------------------------------------------
-#START THE SCRIPT
+#----------------START THE SCRIPT----------------
 #------------------------------------------------
 
-
+#Copy "ExportedAddresses.txt" to -> "cheats.txt"
 import shutil
 dest1 = shutil.copyfile("./ExportedAddresses.txt", "./cheats.txt")
 
+
+
 #--------------------SET-LPC---------------------
-lpc = 20
+lpc = 25
 #--------------------SET-LPC---------------------
 
 
@@ -26,36 +28,38 @@ replaceR = "40000000"
 #---------------SET-VALUES-BUTTONS---------------
 
 
+
 #Check and stock the number of file lines
 print("Opening cheats.txt...")
+print("")
 nmbrlines = 0
 f = open("cheats.txt", 'r')
-print("Calculating number of lines...")
 for line in f:
     nmbrlines += 1
-print("Total number of lines is:", nmbrlines)
-print("")
+print("You START with", nmbrlines ,"lines")
 
 
-#Stock nmbrlines for futures actions
-nmbrlinesStock = nmbrlines
 
 
 #Calculates the last lines
-while nmbrlines > lpc:
-    nmbrlines = nmbrlines - lpc
-linesfin = nmbrlines
-print("You finish by",linesfin,"lines!")
+nmbrlinesbis = nmbrlines
+calclines = 0
+while nmbrlinesbis > lpc:
+    nmbrlinesbis = nmbrlinesbis - lpc
+    calclines = calclines + lpc
+linesfin = nmbrlinesbis
+print("(",lpc,"*",calclines/lpc,")  +  ->",linesfin,"MORE line(s) <-")
 
 
 
 
 #------------------------------------------------
-#DELETE ALL ": " IF PRESENT
+#-----------DELETE ALL ": " IF PRESENT-----------
 #------------------------------------------------
 
 
-#Remlace all the ": " by " "
+
+#Replace all the ": " by " "
 with open("cheats.txt","r") as f:
     text = f.read().replace(": ","")
 
@@ -63,10 +67,18 @@ with open("cheats.txt", "w") as f:
     f.write(text)
 
 
+
 #------------------------------------------------
-#PUT SPACES TO SET LIMITS FOR CHEATS
+#------PUT SPACES TO SET LIMITS FOR CHEATS-------
 #------------------------------------------------
 
+
+#Pass 1 line at the last line
+with open("cheats.txt","r+") as f:
+        text = f.readlines()
+        text.insert(nmbrlines,"\n")
+        f.seek(0)
+        f.writelines(text)
 
 #Pass 1 line for the first line
 with open("cheats.txt","r+") as f:
@@ -76,24 +88,17 @@ with open("cheats.txt","r+") as f:
         f.writelines(text)
 
 
-#Regive the number of lines
-nmbrlines = 0
-f = open("cheats.txt", 'r')
-print("Calculating number of lines...")
-for line in f:
-    nmbrlines += 1
-print("Total number of lines is:", nmbrlines)
-print("")
+
+#Def the LIMITATIONS
+#limitation = (nmbrlines / (lpc + 2)) + 1
+limitation = (calclines/lpc)
 
 
-#Def the limitations
-limitation = (nmbrlines / (lpc + 2)) + 1
 
 #Set some values
 it = 0
 serie = 0
 fix = 0
-nmbrPackets = 0
 
 #Jump 2 lines every (lpc) lines
 while limitation > it:
@@ -105,12 +110,13 @@ while limitation > it:
     it = it + 1
     serie = serie + 1
     fix = 2
-    nmbrPackets = nmbrPackets + 1
+
 
 
 #------------------------------------------------
-#ADD NAME FOR ALL CHEATS
+#------------ADD NAME FOR ALL CHEATS-------------
 #------------------------------------------------
+
 
 
 it = 0
@@ -118,7 +124,7 @@ step = 0
 
 
 #Mark [* Step] for each packages
-while limitation >= step - 1:
+while limitation >= step :
     with open("cheats.txt","r+") as f:
         steptext = f"[{step + 1} Step]"
         text = f.readlines()
@@ -129,90 +135,86 @@ while limitation >= step - 1:
     step = step + 1
 
 
+
 #------------------------------------------------
-#ADD "IF" FUNCTIONS
+#---------------ADD "IF" FUNCTIONS---------------
 #------------------------------------------------
 
 
-it = -1
-fix = 1
+
+it = 0
 serie = 0
+fix = 0
 
 
 #Add code at all the (lpc) lines
 while limitation > it:
     with open("cheats.txt","r+") as f:
         text = f.readlines()
-        text.insert(lpc+fix+(serie*lpc),"DD000000 00000200\n\nD0000000 00000000\nDD000000 00000100\n\nD0000000 00000000\n")
+        text.insert(lpc+fix+1+(serie*lpc),"DD000000 00000200\n\nD0000000 00000000\nDD000000 00000100\n\nD0000000 00000000\n")
         f.seek(0)
         f.writelines(text)
-        it = it + 1
-        serie = serie + 1
-        fix = fix + 8
-        nmbrPackets = nmbrPackets + 1
+    it = it + 1
+    serie = serie + 1
+    fix = fix + 8
+
+
+with open("cheats.txt","r+") as f:
+    text = f.readlines()
+    text.insert(linesfin+fix+1+(serie*lpc),"DD000000 00000200\n\nD0000000 00000000\nDD000000 00000100\n\nD0000000 00000000\n")
+    f.seek(0)
+    f.writelines(text)
+
 
 
 #------------------------------------------------
-#COPY ADRESSES IN "IF" PARTS
+#----------COPY ADRESSES IN "IF" PARTS-----------
 #------------------------------------------------
 
 
-it = -1
-fix = 0
-fix2 = 1
-fix3 = lpc + 3
-fix4 = 5
+
+it = 0
 serie = 0
-nmbrPackets = 0
+fix = 0
 
 
 
 #Copy lpc adresses in some places (1/2)
-while limitation -1 > it:
+while limitation > it:
     with open("cheats.txt","r+") as f:
         text = f.readlines()
-        addr = text[:(serie * (6 + (lpc*3))) + lpc + 2]  +  text[(serie * (6 + (lpc*3))) + fix2:(serie * (6 + (lpc*3))) + lpc + fix2]   +   text[(serie * (6 + (lpc*3))) + fix3:(serie * (6 + (lpc*3))) + lpc + fix4]   +   text[(serie * (6 + (lpc*3))) + fix2:(serie * (6 + (lpc*3))) + lpc + fix2]  +  text[(serie * (6 + (lpc*3))) + lpc + 6:]
+        addr = text[:(serie * (6 + (lpc*3))) + lpc + 2]    +    text[(serie * (6 + (lpc*3))) + 1:(serie * (6 + (lpc*3))) + lpc + 1]    +    text[(serie * (6 + (lpc*3))) + lpc + 3:(serie * (6 + (lpc*3))) + lpc + 5]    +    text[(serie * (6 + (lpc*3))) + 1:(serie * (6 + (lpc*3))) + lpc + 1]    +    text[(serie * (6 + (lpc*3))) + lpc + 6:]
         f.seek(0)
         f.write("".join(addr))
     it = it + 1
     serie = serie + 1
     fix = fix + 8
-    fix2 = 1
 
 
-fix3 = linesfin + 3
 
 
 #Copy lpc adresses in some places (2/2)
 with open("cheats.txt","r+") as f:
     text = f.readlines()
-    addr = text[:(serie * (6 + (lpc*3))) + linesfin + 2]  +  text[(serie * (6 + (lpc*3))) + fix2:(serie * (6 + (lpc*3))) + linesfin + fix2]   +   text[(serie * (6 + (lpc*3))) + fix3:(serie * (6 + (lpc*3))) + linesfin + fix4]   +   text[(serie * (6 + (lpc*3))) + fix2:(serie * (6 + (lpc*3))) + linesfin + fix2]  +  text[(serie * (6 + (lpc*3))) + linesfin + 6:]
+    addr = text[:(serie * (6 + (lpc*3))) + linesfin + 2]    +    text[(serie * (6 + (lpc*3))) + 1:(serie * (6 + (lpc*3))) + linesfin + 1]    +    text[(serie * (6 + (lpc*3))) + linesfin + 3:(serie * (6 + (lpc*3))) + linesfin + 5]    +    text[(serie * (6 + (lpc*3))) + 1:(serie * (6 + (lpc*3))) + linesfin + 1]    +    text[(serie * (6 + (lpc*3))) + linesfin + 6:]
     f.seek(0)
     f.write("".join(addr))
-it = it + 1
-serie = serie + 1
-fix = fix + 8
-fix2 = 1
 
 
 
 #------------------------------------------------
-#
+#-------------SET VALUES FOR BUTTONS-------------
 #------------------------------------------------
 
 
 
-it = -1
-fix = 0
-fix3 = lpc + 3
-fix4 = 5
+it = 0
 serie = 0
-nmbrPackets = 0
+fix = 0
 
 
-
-#Replace all the "3F800000" by "3F000000" for L (1/2)
-while limitation -1 > it:
+#Replace all the "base" by "replaceL" for L (1/2)
+while limitation > it:
     with open("cheats.txt", "r") as f:
         linesL = f.readlines()
 
@@ -223,12 +225,11 @@ while limitation -1 > it:
     it = it + 1
     serie = serie + 1
     fix = fix + 8
-    fix2 = 1
 
 
 
 
-#Replace all the "3F800000" by "3F000000" for L (2/2)
+#Replace all the "base" by "replaceL" for L (2/2)
 with open("cheats.txt", "r") as f:
     linesL = f.readlines()
 
@@ -236,26 +237,19 @@ with open("cheats.txt", "w") as f:
     for i in range(((serie * ((lpc * 3) + 6)) + linesfin + 2)   ,   ((serie * ((lpc * 3) + 6)) + (linesfin * 2) + 4)):
         linesL[i] = linesL[i].replace(base, replaceL)
     f.write("".join(linesL))
-it = it + 1
-serie = serie + 1
-fix = fix + 8
-fix2 = 1
 
 
 
 
 
-it = -1
-fix = 0
-fix3 = lpc + 3
-fix4 = 5
+it = 0
 serie = 0
-nmbrPackets = 0
+fix = 0
 
 
 
-#Replace all the "3F800000" by "4000000" for R (1/2)
-while limitation -1 > it:
+#Replace all the "base" by "replaceR" for R (1/2)
+while limitation > it:
     with open("cheats.txt", "r") as f:
         linesR = f.readlines()
 
@@ -266,12 +260,11 @@ while limitation -1 > it:
     it = it + 1
     serie = serie + 1
     fix = fix + 8
-    fix2 = 1
 
 
 
 
-#Replace all the "3F800000" by "4000000" for R (2/2)
+#Replace all the "base" by "replaceR" for R (2/2)
 with open("cheats.txt", "r") as f:
     linesR = f.readlines()
 
@@ -279,26 +272,20 @@ with open("cheats.txt", "w") as f:
     for i in range(((serie * ((lpc * 3) + 6)) + (linesfin * 2) + 2)   ,   ((serie * ((lpc * 3) + 6)) + (linesfin * 3) + 4)):
         linesR[i] = linesR[i].replace(base, replaceR)
     f.write("".join(linesR))
-it = it + 1
-serie = serie + 1
-fix = fix + 8
-fix2 = 1
 
 
 
 
 #------------------------------------------------
-#END OF PROGRAM
+#-!!!!!!!!!!!!!!!-END OF PROGRAM-!!!!!!!!!!!!!!!-
 #------------------------------------------------
 
-#"""
 
 #Regive the number of lines
 nmbrlines = 0
 f = open("cheats.txt", 'r')
-print("Calculating number of lines...")
 for line in f:
     nmbrlines += 1
-print("Total number of lines is:", nmbrlines)
+print("You FINISH with", nmbrlines ,"lines")
 print("")
 f.close()
