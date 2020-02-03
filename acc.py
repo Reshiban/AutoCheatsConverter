@@ -16,17 +16,14 @@ dest1 = shutil.copyfile("./ExportedAddresses.txt", "./cheats.txt")
 
 
 
-#--------------------SET-LPC---------------------
-lpc = 25
-#--------------------SET-LPC---------------------
-
-
-#---------------SET-VALUES-BUTTONS---------------
-offset = "D3000000 00000000"
+#--------------------SETTINGS--------------------
+lpc = 50
+offset = "D3000000 10000000"
+offsetN = "1"
 base = "3F800000"
 replaceL = "3F000000"
 replaceR = "40000000"
-#---------------SET-VALUES-BUTTONS---------------
+#--------------------SETTINGS--------------------
 
 
 
@@ -63,6 +60,15 @@ print("(",lpc,"*",calclines/lpc,")  +  ->",linesfin,"MORE line(s) <-")
 #Replace all the " : " by " "
 with open("cheats.txt","r") as f:
     text = f.read().replace(": ","")
+
+with open("cheats.txt", "w") as f:
+    f.write(text)
+
+
+    
+#Replace all 1st numbers by "0"
+with open("cheats.txt","r") as f:
+    text = f.read().replace("\n"+offsetN,"\n0")
 
 with open("cheats.txt", "w") as f:
     f.write(text)
